@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+
+<body>
+    <div id="app">
+        <app-num1 v-model="num1"></app-num1>
+        <select v-model="operation">
+            <option value="add">더하기(+)</option>
+            <option value="subtract">빼기(-)</option>
+            <option value="multiply">곱하기(*)</option>
+            <option value="divide">나누기(/)</option>
+        </select>
+        <app-num2 v-model="num2"></app-num2>
+        <button @click="calculate">계산하기</button>
+        <p v-if="result !== null">계산결과 : {{ result }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        Vue.component('app-num1', {
+            props: ['value'],
+            template: '<input v-model="value" placeholder="숫자입력1">'
+        });
+
+        Vue.component('app-num2', {
+            props: ['value'],
+            template: '<input v-model="value" placeholder="숫자입력2">'
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                num1: null,
+                num2: null,
+                operation: 'add',
+                result: null
+            },
+            methods: {
+                calculate: function () {
+                    if (this.num1 === null || this.num2 === null) {
+                        this.result = null;
+                        return;
+                    }
+
+                    switch (this.operation) {
+                        case 'add':
+                            this.result = parseFloat(this.num1) + parseFloat(this.num2);
+                            break;
+                        case 'subtract':
+                            this.result = parseFloat(this.num1) - parseFloat(this.num2);
+                            break;
+                        case 'multiply':
+                            this.result = parseFloat(this.num1) * parseFloat(this.num2);
+                            break;
+                        case 'divide':
+                            this.result = parseFloat(this.num1) / parseFloat(this.num2);
+                            break;
+                        default:
+                            this.result = 'Invalid operation';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
